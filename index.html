@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRPD Day 1 - 不歧視</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 400px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .post-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .day-header {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .quiz-container {
+            margin: 20px 0;
+        }
+        
+        .question {
+            font-size: 18px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid #ff6b6b;
+        }
+        
+        .options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .option-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 80px;
+        }
+        
+        .option-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .option-btn.correct {
+            background: #4ecdc4;
+            animation: pulse 0.6s;
+        }
+        
+        .option-btn.incorrect {
+            background: #ff6b6b;
+            animation: shake 0.6s;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .score-container {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        
+        .share-section {
+            margin-top: 25px;
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .share-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            transition: transform 0.3s ease;
+        }
+        
+        .share-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .next-day {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="post-container">
+        <div class="day-header">
+            🚫 Day 1: 不歧視挑戰
+        </div>
+        
+        <div class="quiz-container">
+            <div class="question">
+                💭 以下哪種說法是對的？
+            </div>
+            <div class="options">
+                <button class="option-btn" onclick="checkAnswer(this, false, 0)">
+                    身心障礙者都需要被照顧
+                </button>
+                <button class="option-btn" onclick="checkAnswer(this, true, 0)">
+                    身心障礙者是獨立個體
+                </button>
+            </div>
+            <div class="feedback" id="feedback-0">
+                <strong>✅ 正確！</strong><br>
+                身心障礙者和每個人一樣，都是獨立的個體，有自己的想法、能力和夢想！
+            </div>
+        </div>
+        
+        <div class="quiz-container">
+            <div class="question">
+                🗣️ 哪個用詞比較友善？
+            </div>
+            <div class="options">
+                <button class="option-btn" onclick="checkAnswer(this, false, 1)">
+                    正常人 vs 殘障者
+                </button>
+                <button class="option-btn" onclick="checkAnswer(this, true, 1)">
+                    非身心障礙者 vs 身心障礙者
+                </button>
+            </div>
+            <div class="feedback" id="feedback-1">
+                <strong>✅ 沒錯！</strong><br>
+                避免「正常」這個詞，因為它暗示其他人「不正常」。用更中性的表達方式更友善！
+            </div>
+        </div>
+        
+        <div class="quiz-container">
+            <div class="question">
+                🤝 什麼是「合理調整」？
+            </div>
+            <div class="options">
+                <button class="option-btn" onclick="checkAnswer(this, false, 2)">
+                    特別優待
+                </button>
+                <button class="option-btn" onclick="checkAnswer(this, true, 2)">
+                    消除障礙的必要調整
+                </button>
+            </div>
+            <div class="feedback" id="feedback-2">
+                <strong>✅ 完全正確！</strong><br>
+                合理調整不是優待，而是為了讓每個人都能平等參與所做的必要修改！
+            </div>
+        </div>
+        
+        <div class="score-container">
+            <div id="score">你的得分：<span id="score-number">0</span>/3</div>
+        </div>
+        
+        <div class="share-section">
+            <div style="margin-bottom: 15px;">🎯 完成挑戰！分享你的成果：</div>
+            <button class="share-btn" onclick="shareResult()">
+                📱 分享到社群
+            </button>
+            <button class="share-btn" onclick="tagFriend()">
+                👫 標記朋友一起玩
+            </button>
+        </div>
+        
+        <div class="next-day">
+            <strong>明天預告 👥</strong><br>
+            Day 2 將挑戰「充分參與」！<br>
+            準備好體驗不同的參與困境了嗎？
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        let answered = [false, false, false];
+        
+        function checkAnswer(button, isCorrect, questionIndex) {
+            if (answered[questionIndex]) return;
+            
+            answered[questionIndex] = true;
+            
+            const allButtons = button.parentElement.querySelectorAll('.option-btn');
+            const feedback = document.getElementById(`feedback-${questionIndex}`);
+            
+            allButtons.forEach(btn => btn.style.pointerEvents = 'none');
+            
+            if (isCorrect) {
+                button.classList.add('correct');
+                score++;
+            } else {
+                button.classList.add('incorrect');
+                // 顯示正確答案
+                allButtons.forEach(btn => {
+                    if (btn !== button) btn.classList.add('correct');
+                });
+            }
+            
+            feedback.classList.add('show');
+            updateScore();
+        }
+        
+        function updateScore() {
+            document.getElementById('score-number').textContent = score;
+        }
+        
+        function shareResult() {
+            const message = `我在CRPD不歧視挑戰中得到 ${score}/3 分！🎯\n\n一起來認識身心障礙者權利公約，建立更友善的社會！\n\n#CRPD #不歧視 #身心障礙權利`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'CRPD不歧視挑戰',
+                    text: message
+                });
+            } else {
+                navigator.clipboard.writeText(message).then(() => {
+                    alert('結果已複製到剪貼簿！可以貼到社群媒體分享～');
+                });
+            }
+        }
+        
+        function tagFriend() {
+            const message = `@朋友名字 一起來挑戰CRPD知識測驗吧！\n\n今天是「不歧視」主題，你能答對幾題？💪\n\n#CRPD挑戰 #友善社會`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: '邀請朋友挑戰CRPD',
+                    text: message
+                });
+            } else {
+                navigator.clipboard.writeText(message).then(() => {
+                    alert('邀請文案已複製！去標記你的朋友一起參加吧～');
+                });
+            }
+        }
+    </script>
+</body>
+</html>
